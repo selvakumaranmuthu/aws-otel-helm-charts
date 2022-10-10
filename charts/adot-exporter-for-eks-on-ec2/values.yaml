@@ -258,7 +258,7 @@ adotCollector:
           path: "/var/lib/docker"
       - name: "containerdsock"
         hostPath:
-          path: "/run/containerd/containerd.sock"
+          path: "/run/dockershim.sock"
       - name: "sys"
         hostPath:
           path: "/sys"
@@ -301,7 +301,7 @@ adotCollector:
     cwexporters:
       namespace: "ContainerInsights"
       logGroupName: ""
-      logStreamName: "InputNodeName"
+      logStreamName: "InstanceId"
       enabled: true
       dimensionRollupOption: "NoDimensionRollup"
       parseJsonEncodedAttrValues: ["Sources", "kubernetes"]
@@ -406,9 +406,9 @@ adotCollector:
       authenticator: "sigv4auth"
     service:
       metrics:
-        receivers: ["prometheus"]
+        receivers: ["awscontainerinsightreceiver"]
         processors: ["batch/metrics"]
-        exporters: ["prometheusremotewrite"]
+        exporters: ["awsemf"]
       extensions: ["health_check", "sigv4auth"]
 
   sidecar:
